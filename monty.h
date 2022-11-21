@@ -10,7 +10,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <limts.h>
 
 /*STRUCTS*/
 /**
@@ -57,7 +56,7 @@ void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 
 /*get_op.c*/
-void (*get_op(char *s))(stack_t **stack, unsigned int line_num);
+void (*get_op_func(char *s))(stack_t **stack, unsigned int line_number);
 
 /*dlists.c*/
 int add_end_node(stack_t **stack, int n);

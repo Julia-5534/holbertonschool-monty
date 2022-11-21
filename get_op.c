@@ -1,12 +1,12 @@
 #include "monty.h"
 
 /**
- * get_op - identifies which function corresponds to the string input
- * @s: char input to match valid opcode
- * Return: pointer to matched function, or NULL
+ * get_op_func - function to select correct operation function
+ * @s: 1st bytecode input (opcode)
+ * Return: pointer to correct operation function
  */
 
-void (*get_op(char *s))(stack_t **stack, unsigned int line_num)
+void (*get_op_func(char *s))(stack_t **stack, unsigned int line_number)
 {
 	instruction_t ops[] = {
 		{"push", push},

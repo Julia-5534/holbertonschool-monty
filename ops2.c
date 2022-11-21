@@ -39,18 +39,15 @@ void swap(stack_t **stack, unsigned int line_number)
 
 void add(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp = *stack;
-
-	if (!tmp || !tmp->next)
+	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
-		free_stack(stack);
-		err();
+		printf("L%u: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
 	}
-	tmp->next->n += tmp->n;
-	*stack = tmp->next;
+	(*stack)->next->n += (*stack)->n;
+	(*stack) = (*stack)->next;
+	free((*stack)->prev);
 	(*stack)->prev = NULL;
-	free(tmp);
 }
 
 /**
