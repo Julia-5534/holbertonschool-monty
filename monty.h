@@ -1,21 +1,18 @@
 #ifndef MONTY_H
 #define MONTY_H
 
-/*Standard Library*/
-#include <stddef.h>
-#include <stdlib.h>
+/*LIBRARIES*/
 #include <stdio.h>
-#include <limits.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <limts.h>
 
-/*Macros*/
-#define NOT __attribute__
-#define USED ((unused))
-
-/*Structs*/
+/*STRUCTS*/
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -24,6 +21,7 @@
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
  */
+
 typedef struct stack_s
 {
 	int n;
@@ -38,33 +36,32 @@ typedef struct stack_s
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
  */
+
 typedef struct instruction_s
 {
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/*monty.c*/
-void monty_init(int ac, char *av[]);
-
-/*strings.c*/
-void squeeze_spaces(char *str_d);
-
+/*PROTOTYPES*/
 /*ops.c*/
-void push(stack_t **stack, unsigned int line_number);
+int is_number(const char *n);
+void push(stack_t **stack, unsigned int line_number, const char *n);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
-void swap(stack_t **stack, unsigned int line_number);
 
 /*ops2.c*/
+void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 
 /*get_op.c*/
 void (*get_op(char *s))(stack_t **stack, unsigned int line_num);
 
-/*execscript.c*/
-void exec_script(stack_t **stack);
+/*dlists.c*/
+int add_end_node(stack_t **stack, int n);
+void delete_end_node(stack_t **stack);
+void free_dlist(stack_t **stack);
 
 #endif

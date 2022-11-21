@@ -1,27 +1,50 @@
 #include "monty.h"
 
 /**
- * push - Adds a node to the stack
- * @stack: Pointer to added node
- * @line_number: line number in bytecode file
- * Return: Void
+ * is_number - iterates each character of string to check of isdigit
+ * @n: integer
+ * Return: 0 if is number, else -1 if not
  */
 
-void push(stack_t **stack, __attribute__((unused))unsigned int line_number)
+int is_number(const char *n)
 {
-		stack_t *tmp;
-		
-		if (stack == NULL || *stack == NULL)
-			exit(EXIT_FAILURE);
-		if (head == NULL)
+	int i = 0;
+
+	if (*n == '-')
+		i = 1;
+	for (; *(n + i) != '\0'; i++)
+	{
+		if (isdigit(*(n + i)) == 0)
+			return (-1);
+	}
+	return (0);
+}
+
+/**
+ * push - adds node to the start of dlinkedlist
+ * @stack: head of linked list (node at the bottom of stack)
+ * @line_number: bytecode line number
+ * @i: integer
+ */
+
+void push(stack_t **stack, unsigned int line_number, const char *n)
+{
+	if (!stack)
+		return;
+	if (is_number(n) == -1)
+	{
+		printf("L%u: usage: push integer\n", line_number);
+		free_dlist(stack);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		if (add_end_node(stack, atoi(n)) == -1)
 		{
-			head =  *stack;
-			return;
+			free_dlist(stack);
+			exit(EXIT_FAILURE);
 		}
-		tmp = head;
-		head = *stack;
-		head->next = tmp;
-		tmp->prev = head;
+	}
 }
 
 /**
@@ -78,35 +101,4 @@ void pop(stack_t **stack, unsigned int line_number)
 	}
 	else
 	delete_end_node(stack);
-}
-
-/**
- * swap - swap locations of previous stack with the top stack
- * @stack: node to be swapped
- * @line_number: node number
- */
-
-void swap(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp = NULL;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-	{
-		printf("L%u: can't swap, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	tmp = (*stack)->next;
-	if (tmp->next != NULL)
-	{
-		(*stack)->next = tmp->next;
-		(*stack)->next->prev = *stack;
-	}
-	else
-	{
-		tmp->prev->prev = tmp;
-		tmp->prev->next = NULL;
-	}
-	tmp->prev = NULL;
-	tmp->next = *stack;
-	(*stack) = tmp;
 }
