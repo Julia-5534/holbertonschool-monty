@@ -1,17 +1,27 @@
 #include "monty.h"
 
-void push(stack_t **stack, unsigned int line_number);
+/**
+ * push - Adds a node to the stack
+ * @stack: Pointer to added node
+ * @line_number: line number in bytecode file
+ * Return: Void
+ */
+
+void push(stack_t **stack, __attribute__((unused))unsigned int line_number)
 {
-	if(top == MAX-1) // Checking Array is full or not.
-	{
-		printf("Overflow\n");
-	}
-	else
-	{
-		top += 1; // top = top + 1
-		stack[top] = line_number;
-	}
-	return;
+		stack_t *tmp;
+		
+		if (stack == NULL || *stack == NULL)
+			exit(EXIT_FAILURE);
+		if (head == NULL)
+		{
+			head =  *stack;
+			return;
+		}
+		tmp = head;
+		head = *stack;
+		head->next = tmp;
+		tmp->prev = head;
 }
 
 /**
