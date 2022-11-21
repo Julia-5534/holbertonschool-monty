@@ -24,7 +24,7 @@ int is_number(const char *n)
  * push - adds node to the start of dlinkedlist
  * @stack: head of linked list (node at the bottom of stack)
  * @line_number: bytecode line number
- * @i: integer
+ * @n: integer
  */
 
 void push(stack_t **stack, unsigned int line_number, const char *n)
