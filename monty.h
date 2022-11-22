@@ -1,10 +1,15 @@
 #ifndef MONTY_H
 #define MONTY_H
 
+/* strtok Delimiters */
+#define DELIMS "\n \r\t"
+#define  _GNU_SOURCE
+
 /*LIBRARIES*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stddef.h>
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -42,10 +47,26 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct free_struct - opcode and its function
+ * @line: line buffer
+ * @fp: file pointer
+ * Description: opcode and its function
+ * for stack, queues, LIFO, FIFO
+ */
+
+typedef struct free_struct
+{
+	char *line;
+	FILE *fp;
+} early_free_struct;
+
+extern early_free_struct efs;
+
 /*PROTOTYPES*/
 /*ops.c*/
-int is_number(const char *n);
-void push(stack_t **stack, unsigned int line_number, const char *n);
+int _isdigit(char *token);
+void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
@@ -56,11 +77,23 @@ void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 
 /*get_op.c*/
-void (*get_op_func(char *s))(stack_t **stack, unsigned int line_number);
+void check_command(stack_t **stack, char *op, unsigned int line_number);
 
 /*dlists.c*/
 int add_end_node(stack_t **stack, int n);
 void delete_end_node(stack_t **stack);
 void free_dlist(stack_t **stack);
+
+/*early_free.c*/
+void early_free(stack_t **head);
+
+/*monty_init.c*/
+FILE *monty_init(int argc, char *file);
+
+/*monty_exit.c*/
+void monty_exit(stack_t **stack);
+
+/*read_file.c*/
+void read_file(stack_t **stack);
 
 #endif

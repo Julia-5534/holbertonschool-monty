@@ -1,13 +1,15 @@
 #include "monty.h"
 
 /**
- * get_op_func - function to select correct operation function
- * @s: 1st bytecode input (opcode)
- * Return: pointer to correct operation function
+ * get_op - checks the parsed commands against function pointers
+ * @op: operation to perofrm
+ * @line_num: line number
+ * @stack: it's the stack
  */
 
-void (*get_op_func(char *s))(stack_t **stack, unsigned int line_number)
+void get_op(stack_t **stack, char *op, unsigned int line_number)
 {
+	int i;
 	instruction_t ops[] = {
 		{"push", push},
 		{"pall", pall},
@@ -18,12 +20,17 @@ void (*get_op_func(char *s))(stack_t **stack, unsigned int line_number)
 		{"nop", nop},
 		{NULL, NULL}
 	};
-	unsigned int i = 0;
 
-	if (!s)
-		return (NULL);
-	while (ops[i].opcode != NULL && strcmp(s, ops[i].opcode) != 0)
-		i++;
-
-	return (ops[i].f);
+	for (i = 0; ops[i].opcode; i++)
+		if (strcmp(op, ops[i].opcode) == 0)
+		{
+			ops[i].f(stack, line_number);
+			return;
+		}
+	if (op[0] != '#')
+	{
+		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, op);
+		early_free(stack);
+		exit(EXIT_FAILURE);
+	}
 }

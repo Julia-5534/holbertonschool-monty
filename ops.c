@@ -1,50 +1,64 @@
 #include "monty.h"
 
 /**
- * is_number - iterates each character of string to check of isdigit
- * @n: integer
- * Return: 0 if is number, else -1 if not
+ * _isdigit - Checks if a string contains only numbers
+ * @token: The string to check
+ * Return: 1 if is a number, 0 if not a number
  */
 
-int is_number(const char *n)
+int _isdigit(char *token)
 {
 	int i = 0;
 
-	if (*n == '-')
-		i = 1;
-	for (; *(n + i) != '\0'; i++)
+	if (token[0] == '-')
+		i++;
+
+	while (token[i])
 	{
-		if (isdigit(*(n + i)) == 0)
-			return (-1);
+		if (token[i] < '0' || token[i] > '9')
+			return (0);
+		i++;
 	}
-	return (0);
+	return (1);
 }
 
 /**
- * push - adds node to the start of dlinkedlist
- * @stack: head of linked list (node at the bottom of stack)
- * @line_number: bytecode line number
- * @n: integer
+ * push - pushes a node to the top of the stack
+ * @line_number: The executing line of the monty file
+ * @stack: The head node of our stack
+ * Return: void
  */
 
-void push(stack_t **stack, unsigned int line_number, const char *n)
+void push(stack_t **stack, unsigned int line_number)
 {
-	if (!stack)
-		return;
-	if (is_number(n) == -1)
+	char *num;
+	stack_t *pushed_node;
+
+	num = strtok(NULL, DELIMS);
+
+	if (num == NULL || _isdigit(num) == 0)
 	{
-		printf("L%u: usage: push integer\n", line_number);
-		free_dlist(stack);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		early_free(stack);
 		exit(EXIT_FAILURE);
 	}
-	else
+
+	pushed_node = malloc(sizeof(stack_t));
+	if (pushed_node == NULL)
 	{
-		if (add_end_node(stack, atoi(n)) == -1)
-		{
-			free_dlist(stack);
-			exit(EXIT_FAILURE);
-		}
+		fprintf(stderr, "Error: malloc failed\n");
+		early_free(stack);
+		exit(EXIT_FAILURE);
 	}
+
+	pushed_node->n = atoi(num);
+	pushed_node->prev = NULL;
+	pushed_node->next = *stack;
+
+	if (*stack != NULL)
+		(*stack)->prev = pushed_node;
+	
+	*stack = pushed_node;
 }
 
 /**
