@@ -25,7 +25,6 @@
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
  */
-
 typedef struct stack_s
 {
 	int n;
@@ -40,7 +39,6 @@ typedef struct stack_s
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
  */
-
 typedef struct instruction_s
 {
 	char *opcode;
@@ -54,7 +52,6 @@ typedef struct instruction_s
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
  */
-
 typedef struct free_struct
 {
 	char *line;
@@ -62,6 +59,18 @@ typedef struct free_struct
 } early_free_struct;
 
 extern early_free_struct efs;
+
+/**
+ * struct monty_d - stores multiply-used data elements for monty scripts
+ * @buf: line pulled from @script
+ * @script: input file from av[1]
+ * Description: stores the most used elements globally
+ */
+typedef struct monty_d
+{
+	char *buf;
+	FILE *script;
+} monty_data;
 
 /*PROTOTYPES*/
 /*ops.c*/
@@ -88,12 +97,20 @@ void free_dlist(stack_t **stack);
 void early_free(stack_t **head);
 
 /*monty_init.c*/
-FILE monty_init(int argc, char *file);
+void monty_init(int ac, char *av[]);
 
 /*monty_exit.c*/
 void monty_exit(stack_t **stack);
 
 /*read_file.c*/
 void read_file(stack_t **stack);
+
+/*Globals*/
+extern char *buf;
+extern FILE *monty;
+extern monty_data data;
+char *buf;
+FILE *monty;
+monty_data data;
 
 #endif

@@ -1,29 +1,26 @@
 #include "monty.h"
 
 /**
- * monty_init - Checks and sets up the interpreter for handling the file
- * @file: file to open
- * @argc: argument count
- * Return: file pointeri
+ * monty_init - handles some error checking and opens the script if possible.
+ * @ac: number of arguments provided
+ * @av: arguments provided by argv
  */
 
-FILE monty_init(int argc, char *file)
+void monty_init(int ac, char *av[])
 {
-	FILE *fp;
-
-	if (argc != 2)
+	FILE *temp = NULL;
+	/*Check for correct usage.*/
+	if (ac != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	fp = fopen(file, "r");
-	if (fp == NULL)
+	/*Try to open the file */
+	data.script = temp = fopen(av[1], "r");
+	/*Check whether we actually opened it.*/
+	if (!data.script)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", file);
+		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
-
-	efs.fp = fp;
-	
-	return (fp);
 }
