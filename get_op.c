@@ -1,13 +1,13 @@
 #include "monty.h"
 
 /**
- * get_op - checks the parsed commands against function pointers
+ * check_command - checks the parsed commands against function pointers
  * @op: operation to perofrm
- * @line_num: line number
+ * @line_number: line number
  * @stack: it's the stack
  */
 
-void get_op(stack_t **stack, char *op, unsigned int line_number)
+void check_command(stack_t **stack, char *op, unsigned int line_number)
 {
 	int i;
 	instruction_t ops[] = {
@@ -25,7 +25,7 @@ void get_op(stack_t **stack, char *op, unsigned int line_number)
 		if (strcmp(op, ops[i].opcode) == 0)
 		{
 			ops[i].f(stack, line_number);
-			return;
+				return;
 		}
 	if (op[0] != '#')
 	{
