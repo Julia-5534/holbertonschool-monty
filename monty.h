@@ -88,6 +88,9 @@ void nop(stack_t **stack, unsigned int line_number);
 /*get_op.c*/
 void check_command(stack_t **stack, char *op, unsigned int line_number);
 
+/* _isdigit.c*/
+int _isdigit(char *token);
+
 /*dlists.c*/
 int add_end_node(stack_t **stack, int n);
 void delete_end_node(stack_t **stack);
