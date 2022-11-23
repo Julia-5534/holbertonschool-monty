@@ -14,7 +14,7 @@ void push(stack_t **stack, unsigned int line_number)
 	if (input != NULL)
 	{
 		stack_t *ptr = malloc(sizeof(stack_t));
-		
+
 		ptr->n = atoi(input);
 		ptr->next = (*stack);
 		ptr->prev = NULL;
@@ -122,7 +122,7 @@ void swap(stack_t **stack, unsigned int line_number)
 
 		node2->prev = NULL;
 		node2->next = node1;
-		
+
 		(*stack) = node2;
 	}
 }
