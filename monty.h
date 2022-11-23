@@ -88,7 +88,7 @@ void free_dlist(stack_t **stack);
 void early_free(stack_t **head);
 
 /*monty_init.c*/
-FILE *monty_init(int argc, char *file);
+FILE monty_init(int argc, char *file);
 
 /*monty_exit.c*/
 void monty_exit(stack_t **stack);

@@ -7,7 +7,7 @@
  * Return: file pointeri
  */
 
-FILE *monty_init(int argc, char *file)
+FILE monty_init(int argc, char *file)
 {
 	FILE *fp;
 

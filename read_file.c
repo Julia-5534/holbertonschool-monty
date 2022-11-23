@@ -20,7 +20,7 @@ void read_file(stack_t **stack)
 
 		efs.line = line;
 												if (execute)
-			get_op(stack, execute, line_number);
+			check_command(stack, execute, line_number);
 		
 												line_number++;
 	}
