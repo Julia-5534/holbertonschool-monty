@@ -1,62 +1,43 @@
 #include "monty.h"
 
 /**
- * swap - swap locations of previous stack with the top stack
- * @stack: node to be swapped
- * @line_number: node number
- */
-
-void swap(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp = NULL;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-	{
-		printf("L%u: can't swap, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	tmp = (*stack)->next;
-	if (tmp->next != NULL)
-	{
-		(*stack)->next = tmp->next;
-		(*stack)->next->prev = *stack;
-	}
-	else
-	{
-		tmp->prev->prev = tmp;
-		tmp->prev->next = NULL;
-	}
-	tmp->prev = NULL;
-	tmp->next = *stack;
-	(*stack) = tmp;
-}
-
-/**
- * add - adds the first two elements of a stack, replaces both with sum
- * @stack: linked list stack to add
- * @line_number: current line number of bytecode file
+ * add - adds 2 numbers
+ * @stack:stack
+ * @line_number: line number
  */
 
 void add(stack_t **stack, unsigned int line_number)
 {
-	if (*stack == NULL || (*stack)->next == NULL)
+	stack_t *p = (*stack);
+	int length = 0;
+	int sum = 0;
+
+	while (p != NULL)
 	{
-		printf("L%u: can't add, stack too short\n", line_number);
+		length++;
+		p = p->next;
+	}
+	if (length < 2)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n += (*stack)->n;
-	(*stack) = (*stack)->next;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+	else
+	{
+		sum = (*stack)->n + (*stack)->next->n;
+		(*stack)->next->n = sum;
+		pop(stack, line_number);
+	}
 }
 
 /**
- * nop - NO operator, does nothing.
- * @stack: ignored
- * @line_number: ignored
+ * nop - doesn’t do anything
+ * @stack: the pointer to the stack
+ * @line_number: line of the file that being trated
  */
+
 void nop(stack_t **stack, unsigned int line_number)
 {
-	(void) stack;
-	(void) line_number;
+	(void)stack;
+	(void)line_number;
 }
