@@ -23,7 +23,8 @@ int main(int argc, char **argv)
 
 	line = NULL;
 	size = 0;
-	fp = fopen(argv[1], "r");							if (fp == NULL)
+	fp = fopen(argv[1], "r");
+	if (fp == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
